@@ -1,0 +1,15 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+let PostSchema = new Schema(
+  {
+    name: {type: String},
+    content: {type: String},
+    cover: {type: String}
+  },
+  {
+    timestamps: true
+  }
+)
+
+module.exports = mongoose.model('Post', PostSchema);
