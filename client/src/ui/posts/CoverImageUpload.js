@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react'
 import ContentAdd from 'material-ui/svg-icons/content/add'
+import setting from '../../setting'
 
 class CoverImageUpload extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      image: this.props.image ?  `http://localhost:4000/uploads/posts/${this.props.image}` : ''
+      image: this.props.image ?  `${setting.host}/uploads/posts/${this.props.image}` : ''
     }
   }
 
