@@ -64,6 +64,13 @@ module.exports = function(app) {
       let user = new User()
       user.username = req.body.username
       user.password = req.body.password
+      User.findOne({username: user.username}, function(err, user) {
+        if (user) {
+          return res.status(422).json({
+            error: '用户名已被使用'
+          })
+        }
+      })
       user.save(function(err) {
         if (err) return console.log(err)
         return res.json({

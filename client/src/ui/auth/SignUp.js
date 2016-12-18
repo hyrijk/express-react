@@ -5,6 +5,7 @@ import Radium from 'radium'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { signUp } from '../../redux/actions/authActions'
+import Error from '../../ui/shared/Error'
 
 class SignUp extends React.Component {
   getStyles() {
@@ -14,7 +15,7 @@ class SignUp extends React.Component {
         backgroundColor: '#fff',
         boxShadow: '0 0 0 1px rgba(200, 215, 225, 0.5), 0 1px 2px #e9eff3',
         margin: '30px 16px',
-        padding: '0 1em 1em',
+        padding: '1em',
         textAlign: 'center',
         '@media (min-width: 400px)': {
           width: '400px',
@@ -65,6 +66,7 @@ class SignUp extends React.Component {
     return (
       <div style={styles.root}>
         <form onSubmit={this.handleSubmit.bind(this)}>
+          {this.props.error ? <Error message={this.props.error} /> : ''}
           <TextField ref="username" style={styles.textField} floatingLabelText="用户名" />
           <TextField ref="password" style={styles.textField} floatingLabelText="密码" type="password" />
           <TextField ref="confirmPassword" style={styles.textField} floatingLabelText="确认密码" type="password" />
@@ -79,4 +81,9 @@ SignUp.propsTypes = {
   signUp: PropTypes.func.isRequired
 }
 
-export default connect(null, {signUp})(Radium(SignUp))
+const mapStateToProps = (state) => ({
+  error: state.auth.error
+})
+
+
+export default connect(mapStateToProps, {signUp})(Radium(SignUp))
