@@ -61,6 +61,12 @@ export function setAuthError(error) {
   }
 }
 
+export function clearError() {
+  return {
+    type: 'CLEAR_ERROR'
+  }
+}
+
 function handleError(error, dispatch) {
   if (error.response) {
     dispatch(setAuthError(error.response.data.error))

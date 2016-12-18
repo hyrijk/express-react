@@ -18,6 +18,11 @@ export default (state=initialState, action={}) => {
         ...state,
         error: action.error
       }
+    case 'CLEAR_ERROR':
+      return {
+        ...state,
+        error: ''
+      }
     default:
       return state
   }

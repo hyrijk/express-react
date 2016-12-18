@@ -4,10 +4,15 @@ import TextField from 'material-ui/TextField'
 import Radium from 'radium'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { login } from '../../redux/actions/authActions'
+import { login, clearError } from '../../redux/actions/authActions'
 import Error from '../../ui/shared/Error'
 
 class LogIn extends React.Component {
+
+  componentWillUnmount() {
+    this.props.clearError()
+  }
+  
   getStyles() {
     return {
       root: {
@@ -80,4 +85,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {login})(Radium(LogIn))
+export default connect(mapStateToProps, {login, clearError})(Radium(LogIn))
