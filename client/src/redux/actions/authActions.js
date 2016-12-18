@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router'
-
+import setting from '../../setting'
 
 export function login(data) {
   return dispatch => {
-    axios.post('http://localhost:4000/auth/login', data)
+    axios.post(`${setting.host}/auth/login`, data)
     .then(res => {
       const token = res.data.token
       const user = res.data.user
@@ -15,14 +15,14 @@ export function login(data) {
       console.log('登录成功了!')
     })
     .catch(err => {
-      handleError(err)
+      handleError(err, dispatch)
     })
   }
 }
 
 export function signUp(data) {
   return dispatch => {
-    axios.post('http://localhost:4000/auth/signup', data)
+    axios.post(`${setting.host}/auth/signup`, data)
     .then(res => {
       const token = res.data.token
       const user = res.data.user
@@ -33,7 +33,7 @@ export function signUp(data) {
       console.log('注册成功了!')
     })
     .catch(err => {
-      handleError(err)
+      handleError(err, dispatch)
     })
   }
 }
@@ -54,9 +54,16 @@ export function setCurrentUser(user) {
   }
 }
 
-function handleError(error) {
+export function setAuthError(error) {
+  return {
+    type: 'AUTH_ERROR',
+    error
+  }
+}
+
+function handleError(error, dispatch) {
   if (error.response) {
-    console.log(error.response.data.error)
+    dispatch(setAuthError(error.response.data.error))
   } else {
     console.log(error)
   }

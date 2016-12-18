@@ -29,7 +29,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel?presets[]=es2015,presets[]=react'],
+        loaders: ['babel'],
         include: path.join(__dirname, 'src')
       }
     ]

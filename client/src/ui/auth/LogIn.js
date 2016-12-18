@@ -5,6 +5,7 @@ import Radium from 'radium'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { login } from '../../redux/actions/authActions'
+import Error from '../../ui/shared/Error'
 
 class LogIn extends React.Component {
   getStyles() {
@@ -14,7 +15,7 @@ class LogIn extends React.Component {
         backgroundColor: '#fff',
         boxShadow: '0 0 0 1px rgba(200, 215, 225, 0.5), 0 1px 2px #e9eff3',
         margin: '30px 16px',
-        padding: '0 1em 1em',
+        padding: '1em 1em 1em',
         textAlign: 'center',
         '@media (min-width: 400px)': {
           width: '400px',
@@ -59,6 +60,7 @@ class LogIn extends React.Component {
     return (
       <div style={styles.root}>
         <form onSubmit={this.handleSubmit.bind(this)}>
+          {this.props.error ? <Error message={this.props.error}/> : ''}
           <TextField ref="username" style={styles.textField} floatingLabelText="用户名" />
           <TextField ref="password" style={styles.textField} floatingLabelText="密码" type="password" />
           <RaisedButton primary={true} style={styles.button} labelStyle={styles.label} label="登录" type="submit" />
@@ -72,4 +74,10 @@ LogIn.propsTypes = {
   login: PropTypes.func.isRequired
 }
 
-export default connect(null, {login})(Radium(LogIn))
+const mapStateToProps = (state) => {
+  return {
+    error: state.auth.error
+  }
+}
+
+export default connect(mapStateToProps, {login})(Radium(LogIn))

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {browserHistory} from 'react-router'
+import setting from '../../setting'
 
 function handleError(error) {
   if (error.response) {
@@ -15,7 +16,7 @@ export function newPost(data) {
     formData.append('name', data.name)
     formData.append('content', data.content)
     formData.append('post', data.file)
-    axios.post('http://localhost:4000/posts', formData, {
+    axios.post(`${setting.host}/posts`, formData, {
       headers: {
         'Authorization' : sessionStorage.getItem('jwtToken')
       }
@@ -31,7 +32,7 @@ export function newPost(data) {
 
 export function fetchPosts() {
   return (dispatch) => {
-    axios.get('http://localhost:4000/posts').then(response => {
+    axios.get(`${setting.host}/posts`).then(response => {
       dispatch({ type: 'LOAD_POSTS', posts: response.data.posts });
     }).catch(error => {
       handleError(error);
@@ -41,7 +42,7 @@ export function fetchPosts() {
 
 export function getPost(id) {
   return (dispatch) => {
-    axios.get(`http://localhost:4000/posts/${id}`).then(response => {
+    axios.get(`${setting.host}/posts/${id}`).then(response => {
       dispatch({type: 'LOAD_POST', post: response.data.post})
     }).catch(error => {
       handleError(error)
@@ -61,7 +62,7 @@ export function editPost(data, id) {
   formData.append('content', data.content)
   formData.append('post', data.file)
   return dispatch => {
-    axios.put(`http://localhost:4000/posts/${id}`, formData, {
+    axios.put(`${setting.host}/posts/${id}`, formData, {
       headers: {'Authorization': sessionStorage.getItem('jwtToken')}
     }).then(response => {
       dispatch({type: 'EDIT_POST', post: response.data.post})
@@ -75,7 +76,7 @@ export function editPost(data, id) {
 
 export function deletePost(id) {
   return dispatch =>{
-    axios.delete(`http://localhost:4000/posts/${id}`, {
+    axios.delete(`${setting.host}/posts/${id}`, {
       headers: { 'Authorization': sessionStorage.getItem('jwtToken')}
     })
     .then(response => {
