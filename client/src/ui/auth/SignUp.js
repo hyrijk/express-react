@@ -8,6 +8,19 @@ import { signUp, clearError } from '../../redux/actions/authActions'
 import Error from '../../ui/shared/Error'
 
 class SignUp extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      error: props.error
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.error) {
+      this.setState({error: nextProps.error})
+    }
+  }
+
   componentWillUnmount() {
     this.props.clearError()
   }
@@ -57,11 +70,22 @@ class SignUp extends React.Component {
     let username = this.refs.username.getValue()
     let password = this.refs.password.getValue()
     let confirmPassword = this.refs.confirmPassword.getValue()
-    if (password !== confirmPassword) {
-      console.log('密码不匹配')
+    if (username.length < 2) {
+      this.setState({ error: '用户名至少两个字符'})
       return
     }
-    console.log(username, password, confirmPassword);
+    if (username.length > 12) {
+      this.setState({ error: '用户名太长了, 不要超过12个字符'})
+      return
+    }
+    if (password.length < 6) {
+      this.setState({ error: '密码至少6位'})
+      return
+    }
+    if (password !== confirmPassword) {
+      this.setState({error: '两次密码不正确'})
+      return
+    }
     this.props.signUp({username, password})
   }
 
@@ -70,10 +94,18 @@ class SignUp extends React.Component {
     return (
       <div style={styles.root}>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          {this.props.error ? <Error message={this.props.error} /> : ''}
-          <TextField ref="username" style={styles.textField} floatingLabelText="用户名" />
-          <TextField ref="password" style={styles.textField} floatingLabelText="密码" type="password" />
-          <TextField ref="confirmPassword" style={styles.textField} floatingLabelText="确认密码" type="password" />
+          {this.state.error ? <Error message={this.state.error} /> : ''}
+          <TextField ref="username"
+            style={styles.textField}
+            floatingLabelText="用户名" />
+          <TextField ref="password"
+            style={styles.textField}
+            floatingLabelText="密码"
+            type="password" />
+          <TextField ref="confirmPassword"
+            style={styles.textField}
+            floatingLabelText="确认密码"
+            type="password" />
           <RaisedButton primary={true} style={styles.button} labelStyle={styles.label} label="注册" type="submit" />
         </form>
       </div>

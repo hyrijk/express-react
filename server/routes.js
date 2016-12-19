@@ -72,7 +72,16 @@ module.exports = function(app) {
         }
       })
       user.save(function(err) {
-        if (err) return console.log(err)
+        if (err.name === 'ValidationError') {
+          return res.status(422).json({
+            error: err.message
+          })
+        } else if (err){
+          console.log(err)
+          return res.status(422).json({
+            error: '数据库出错'
+          })
+        }
         return res.json({
           token: generateToken({name: user.username}),
           user: {

@@ -6,11 +6,12 @@ var UserSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        require: true
+        minlength: [2, '用户名至少两个字符'],
+        maxlength: [12, '用户名太长了, 不要超过12个字符']
     },
     password: {
         type: String,
-        require: true
+        min: [6, '密码至少6个字符']
     },
     admin: {
       type: Boolean,
@@ -22,6 +23,7 @@ var UserSchema = new Schema({
 
 UserSchema.pre('save', function(next) {
     var user = this
+    user.validateSync()
     var SALT_FACTOR = 5
     bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
         if (err) return next(err)
