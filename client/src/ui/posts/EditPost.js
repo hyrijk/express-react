@@ -4,6 +4,7 @@ import BasicForm from './BasicForm'
 import { connect } from 'react-redux'
 import { getPost, clearPost, editPost } from '../../redux/actions/postActions'
 import isEmpty from 'lodash/fp/isEmpty'
+import { setPostError, clearPostError } from '../../redux/actions/errorActions'
 
 class EditPost extends React.Component {
   componentWillMount() {
@@ -12,6 +13,7 @@ class EditPost extends React.Component {
 
   componentWillUnmount() {
     this.props.clearPost()
+    this.props.clearPostError()
   }
 
   handleSubmit(e) {
@@ -44,7 +46,7 @@ class EditPost extends React.Component {
       <div style={styles.root}>
         <p style={styles.title}>编辑文章</p>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          {isEmpty(this.props.post) ? '' : <BasicForm ref="basic" post={this.props.post}/>}
+          {isEmpty(this.props.post) ? '' : <BasicForm ref="basic" post={this.props.post} error={this.props.error}/>}
           <div style={styles.submit}>
             <RaisedButton type='submit' label='更新' primary={true}/>
           </div>
@@ -59,7 +61,8 @@ EditPost.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  post: state.post
+  post: state.post,
+  error: state.error.postError
 })
 
-export default connect(mapStateToProps, {getPost, clearPost, editPost})(EditPost)
+export default connect(mapStateToProps, {getPost, clearPost, editPost, setPostError, clearPostError})(EditPost)

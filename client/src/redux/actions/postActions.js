@@ -1,10 +1,11 @@
 import axios from 'axios'
 import {browserHistory} from 'react-router'
 import setting from '../../setting'
+import { setPostError } from '../actions/errorActions'
 
-function handleError(error) {
+function handleError(error, dispatch) {
   if (error.response) {
-    console.log(error.response.data.error)
+    dispatch(setPostError(error.response.data.error))
   } else {
     console.log(error)
   }
@@ -25,7 +26,7 @@ export function newPost(data) {
       browserHistory.push('/dashboard')
       console.log(res.data.message)
     }).catch(err => {
-      handleError(err)
+      handleError(err, dispatch)
     })
   }
 }
@@ -45,7 +46,7 @@ export function getPost(id) {
     axios.get(`${setting.host}/posts/${id}`).then(response => {
       dispatch({type: 'LOAD_POST', post: response.data.post})
     }).catch(error => {
-      handleError(error)
+      handleError(error, dispatch)
     })
   }
 }
@@ -69,7 +70,7 @@ export function editPost(data, id) {
       browserHistory.push('/dashboard')
       console.log(response.data.message)
     }).catch(error => {
-      handleError(error)
+      handleError(error, dispatch)
     })
   }
 }
@@ -84,7 +85,7 @@ export function deletePost(id) {
       console.log(response.data.message)
     })
     .catch(error => {
-      handleError(error)
+      handleError(error, dispatch)
     })
   }
 }

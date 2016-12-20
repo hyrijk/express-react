@@ -99,7 +99,13 @@ module.exports = function(app) {
       post.name = req.body.name
       post.content = req.body.content
       post.save(err => {
-        if (err) return console.log(err)
+        if (err.name === 'ValidationError') {
+          res.status(422).json({error: err.errors})
+          return
+        } else if (err) {
+          res.status(422).json({error: '保存出错了'})
+          return console.log(err)
+        }
         res.json({
           post: post,
           message: '文章创建成功了!'
@@ -126,7 +132,7 @@ module.exports = function(app) {
 
     app.put('/posts/:post_id',requiredAuth, upload.single('post'), function(req, res) {
       Post.findById({_id: req.params.post_id}, function(err, post) {
-        if (err) return res.status(422).json({error: err.message})
+        if (err) return res.status(422).json({error: err.errors})
         post.name = req.body.name
         post.content = req.body.content
         console.log(post)
@@ -134,7 +140,7 @@ module.exports = function(app) {
           post.cover = req.file.filename
         }
         post.save(function(err) {
-          if (err) return res.status(422).json({error: err.message})
+          if (err) return res.status(422).json({error: err.errors})
           console.log(post)
           res.json({
             post: post,

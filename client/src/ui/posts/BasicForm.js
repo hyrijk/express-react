@@ -37,15 +37,24 @@ class BasicForm extends React.Component {
         width: '100%'
       }
     }
+
+    const { post, error } = this.props
     return (
       <div style={styles.root}>
-        <TextField ref="name" defaultValue={this.props.post && this.props.post.name} floatingLabelText="标题" style={styles.textField}/>
+        <TextField ref="name"
+          errorText={error.name && error.name.message}
+          defaultValue={post && post.name}
+          floatingLabelText="标题"
+          style={styles.textField}/>
         <div style={{marginTop: '15px', marginBottom: '15px'}}>
-          <TextField ref="content" defaultValue={this.props.post && this.props.post.content} floatingLabelText="内容"
+          <TextField ref="content"
+            defaultValue={post && post.content}
+            errorText={error.content && error.content.message}
+            floatingLabelText="内容"
             multiLine={true} rows={3}
             style={styles.textField}/>
         </div>
-        <CoverImageUpload image={this.props.post && this.props.post.cover ? this.props.post.cover :'' } handleImage={this.getImage.bind(this)} tip="上传图片"/>
+        <CoverImageUpload image={ post && post.cover ? post.cover :'' } handleImage={this.getImage.bind(this)} tip="上传图片"/>
       </div>
     )
   }
