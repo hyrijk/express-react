@@ -3,14 +3,12 @@ var path = require('path');
 var webpack = require('webpack');
 var app = express();
 
-var static_path = path.join(__dirname, 'public');
+var static_path = __dirname;
 
 app.use(express.static(static_path))
   .get('*', function (req, res) {
-    res.sendFile('index.html', {
-      root: static_path
-    });
+    res.sendFile(path.join(__dirname, 'index.html'))
   }).listen(process.env.PORT || 8000, function (err) {
     if (err) { console.log(err) };
-    console.log('Listening at localhost:8000');
+    console.log(`Listening at 0.0.0.0:${process.env.PORT || 8000}`);
   });

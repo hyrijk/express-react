@@ -1,8 +1,8 @@
-前端展示页面
+后端
 
 ### 本地运行代码
 
 ```
 npm install
-npm start
+node index.js
 ```
