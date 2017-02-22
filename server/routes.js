@@ -72,11 +72,11 @@ module.exports = function(app) {
         }
       })
       user.save(function(err) {
-        if (err.name === 'ValidationError') {
+        if (err && err.name === 'ValidationError') {
           return res.status(422).json({
             error: err.message
           })
-        } else if (err){
+        } else if (err) {
           console.log(err)
           return res.status(422).json({
             error: '数据库出错'
@@ -99,7 +99,7 @@ module.exports = function(app) {
       post.name = req.body.name
       post.content = req.body.content
       post.save(err => {
-        if (err.name === 'ValidationError') {
+        if (err && err.name === 'ValidationError') {
           res.status(422).json({error: err.errors})
           return
         } else if (err) {
