@@ -24,11 +24,8 @@ function requiredAuth(req, res, next) {
           return res.status(401).json({error: '认证失败!'})
         }
       }
-      if (decoded.admin == true) {
-        next()
-      } else {
-        res.status(401).json({error: '认证失败!'})
-      }
+      req.currentUser = decoded
+      next()
     })
   } else {
     return res.status(403).json({error: '请提供认证码!'})
@@ -50,11 +47,8 @@ module.exports = function(app) {
                     error: '密码不正确'
                 })
                 return res.json({
-                    token: generateToken({name: user.username, admin: user.admin}),
-                    user: {
-                        username: user.username,
-                        admin: user.admin
-                    }
+                    token: generateToken({name: user.username, admin: user.admin, _id: user._id}),
+                    user: user
                 })
             })
         })
@@ -83,10 +77,8 @@ module.exports = function(app) {
           })
         }
         return res.json({
-          token: generateToken({name: user.username}),
-          user: {
-            username: user.username
-          }
+          token: generateToken({name: user.username, admin: user.admin, _id: user._id}),
+          user: user
         })
       })
     })
@@ -98,6 +90,8 @@ module.exports = function(app) {
       }
       post.name = req.body.name
       post.content = req.body.content
+      post.userId = req.currentUser._id
+      console.log(req.currentUser, post)
       post.save(err => {
         if (err && err.name === 'ValidationError') {
           res.status(422).json({error: err.errors})
@@ -133,6 +127,9 @@ module.exports = function(app) {
     app.put('/posts/:post_id',requiredAuth, upload.single('post'), function(req, res) {
       Post.findById({_id: req.params.post_id}, function(err, post) {
         if (err) return res.status(422).json({error: err.errors})
+        if (!(post.userId === req.currentUser._id || req.currentUser.admin)) {
+          return res.status(403).json({error: '没有操作权限'})
+        }
         post.name = req.body.name
         post.content = req.body.content
         console.log(post)
@@ -153,6 +150,9 @@ module.exports = function(app) {
     app.delete('/posts/:post_id',requiredAuth, function(req, res) {
       let id = req.params.post_id
       Post.findById({_id: id}, function(err, post) {
+        if (!(post.userId === req.currentUser._id || req.currentUser.admin)) {
+          return res.status(403).json({error: '没有操作权限'})
+        }
         post.remove(function(err) {
           if (err) return res.status(422).json({error: err.message})
           res.json({

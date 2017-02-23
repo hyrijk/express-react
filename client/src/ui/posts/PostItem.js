@@ -3,6 +3,9 @@ import Radium from 'radium'
 import { connect } from 'react-redux'
 import PostActionList from './PostActionList'
 import { Link } from 'react-router'
+import setting from '../../setting'
+import isEmpty from 'lodash/fp/isEmpty'
+
 
 class PostItem extends Component {
   getStyles() {
@@ -38,10 +41,15 @@ class PostItem extends Component {
     }
   }
 
+  canEdit() {
+    let { user, post } = this.props
+    return !isEmpty(user) && (user._id === post.userId || !!user.admin)
+  }
+
   render() {
     const Cover = () => (
       <div style={styles.cover}>
-        <img src={"http://localhost:4000/uploads/posts/" + this.props.post.cover}
+        <img src={`${setting.host}/uploads/posts/` + this.props.post.cover}
           style={styles.image}/>
       </div>
     )
@@ -60,7 +68,7 @@ class PostItem extends Component {
             </Link>
           </div>
         </div>
-        { this.props.isAuthenticated && (!!this.props.user.admin) ? <PostActionList post={this.props.post} /> : ''}
+        { this.canEdit() ? <PostActionList post={this.props.post} /> : ''}
       </div>
     );
   }

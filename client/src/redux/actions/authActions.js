@@ -11,7 +11,7 @@ export function login(data) {
       sessionStorage.setItem('jwtToken', token)
       sessionStorage.setItem('user', JSON.stringify(user))
       dispatch(setCurrentUser(user))
-      user.admin ? browserHistory.push('/dashboard') : browserHistory.push('/')
+      browserHistory.push('/dashboard')
       console.log('登录成功了!')
     })
     .catch(err => {
@@ -29,7 +29,7 @@ export function signUp(data) {
       sessionStorage.setItem('jwtToken', token)
       sessionStorage.setItem('user', JSON.stringify(user))
       dispatch(setCurrentUser(user))
-      browserHistory.push('/')
+      browserHistory.push('/dashboard')
       console.log('注册成功了!')
     })
     .catch(err => {

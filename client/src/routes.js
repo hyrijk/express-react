@@ -17,16 +17,12 @@ if (sessionStorage.jwtToken) {
   store.dispatch(setCurrentUser(user))
 }
 
-function isAdmin() {
-  if (!sessionStorage.getItem('jwtToken') && !sessionStorage.getItem('user')) {
-    return false
-  }
-  const user = JSON.parse(sessionStorage.getItem('user'))
-  return !!user.admin
+function isLogin() {
+  return sessionStorage.getItem('jwtToken') && sessionStorage.getItem('user')
 }
 
 function requiredAuth(nextState, replace) {
-  if (!isAdmin()) {
+  if (!isLogin()) {
     replace('/login')
   }
 }
