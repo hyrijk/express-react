@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 import App from './ui/App'
 import LogIn from './ui/auth/LogIn'
 import { Provider } from 'react-redux'
@@ -30,7 +30,7 @@ function requiredAuth(nextState, replace) {
 export const renderRoutes = (props) => {
   return (
     <Provider store={store}>
-      <Router history={browserHistory} >
+      <Router history={hashHistory} >
         <Route path='/' component={App}>
           <IndexRoute component={Home} />
           <Route path='/login' component={LogIn} />

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 import setting from '../../setting'
 
 export function login(data) {
@@ -11,7 +11,7 @@ export function login(data) {
       sessionStorage.setItem('jwtToken', token)
       sessionStorage.setItem('user', JSON.stringify(user))
       dispatch(setCurrentUser(user))
-      browserHistory.push('/dashboard')
+      hashHistory.push('/dashboard')
       console.log('登录成功了!')
     })
     .catch(err => {
@@ -29,7 +29,7 @@ export function signUp(data) {
       sessionStorage.setItem('jwtToken', token)
       sessionStorage.setItem('user', JSON.stringify(user))
       dispatch(setCurrentUser(user))
-      browserHistory.push('/dashboard')
+      hashHistory.push('/dashboard')
       console.log('注册成功了!')
     })
     .catch(err => {
@@ -43,7 +43,7 @@ export function logout() {
     sessionStorage.removeItem('jwtToken')
     sessionStorage.removeItem('user')
     dispatch(setCurrentUser({}))
-    browserHistory.push('/')
+    hashHistory.push('/')
   }
 }
 
