@@ -4,7 +4,7 @@ import filter from 'lodash/fp/filter'
 export default (state =[], action={}) => {
   switch(action.type) {
     case 'Add_POST':
-      return [...state, action.post]
+      return [action.post, ...state]
     case 'LOAD_POSTS':
       return action.posts
     case 'EDIT_POST':

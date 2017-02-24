@@ -24,7 +24,6 @@ db.on('error', function(err) {
   console.log('connection failed!', err);
 })
 
-
 app.get('/api', function(req, res) {
   res.send('Welcome to here!')
 })

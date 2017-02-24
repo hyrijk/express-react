@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getPost, clearPost } from '../../redux/actions/postActions'
 import isEmpty from 'lodash/fp/isEmpty'
-import { host } from '../../setting'
+import setting from '../../setting'
 
 
 class ShowPost extends React.Component {
@@ -17,7 +17,7 @@ class ShowPost extends React.Component {
   render () {
     const styles = {
       cover: {
-        backgroundImage: isEmpty(this.props.post) ? 'none' : `url(${host}/uploads/posts/${this.props.post.cover})`,
+        backgroundImage: isEmpty(this.props.post) ? 'none' : `url(${ setting.host }/uploads/posts/${this.props.post.cover})`,
         height: '500px',
         position: 'relative',
         backgroundSize: 'cover',

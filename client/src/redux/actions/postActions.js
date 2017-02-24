@@ -34,7 +34,10 @@ export function newPost(data) {
 export function fetchPosts() {
   return (dispatch) => {
     axios.get(`${setting.host}/posts`).then(response => {
-      dispatch({ type: 'LOAD_POSTS', posts: response.data.posts });
+      dispatch({
+        type: 'LOAD_POSTS',
+        posts: response.data.posts.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+      });
     }).catch(error => {
       handleError(error);
     });

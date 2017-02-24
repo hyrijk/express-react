@@ -108,7 +108,7 @@ module.exports = function(app) {
     })
 
     app.get('/posts', function(req, res) {
-      Post.find({}, 'name cover', function(err, posts) {
+      Post.find({}, function(err, posts) {
         if (err) return console.log(err);
         res.json({
           posts: posts,
