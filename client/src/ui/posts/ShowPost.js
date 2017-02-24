@@ -26,7 +26,8 @@ class ShowPost extends React.Component {
       },
       container: {
         maxWidth: '960px',
-        margin: '56px auto 0'
+        margin: '56px auto 0',
+        padding: '0 20px'
       },
       content: {
         color: '#666'
