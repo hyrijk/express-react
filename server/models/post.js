@@ -5,7 +5,7 @@ let PostSchema = new Schema({
   name: {
     type: String,
     minlength: [2, '标题至少2个字符'],
-    maxlength: [25, '标题太长了, 超过25个字符了']
+    maxlength: [75, '标题太长了, 超过75个字符了']
   },
   content: {
     type: String,
