@@ -9,7 +9,9 @@ class NewPosts extends React.Component {
   componentWillMount() {
     this.props.clearPostError()
   }
-
+  componentWillUnmount() {
+    this.props.clearPostError()
+  }
   getStyles() {
     return {
       root: {
