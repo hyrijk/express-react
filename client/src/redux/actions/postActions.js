@@ -2,10 +2,18 @@ import axios from 'axios'
 import { hashHistory } from 'react-router'
 import setting from '../../setting'
 import { setPostError } from '../actions/errorActions'
+import { setAuthError } from '../actions/authActions'
 
 function handleError(error, dispatch) {
   if (error.response) {
-    dispatch(setPostError(error.response.data.error))
+    const { status, data } = error.response
+    if (status === 401 || status === 403) {
+      hashHistory.push('/login')
+      dispatch(setAuthError(data.error))
+    }
+    else {
+      dispatch(setPostError(data.error))
+    }
   } else {
     console.log(error)
   }
