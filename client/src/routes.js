@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store'
 import { setCurrentUser } from './redux/actions/authActions'
 import SingUp from './ui/auth/SignUp'
-import DashBoard from './ui/DashBoard'
 import NewPosts from './ui/posts/NewPost'
 import Home from './ui/Home'
 import ShowPost from './ui/posts/ShowPost'
@@ -35,7 +34,6 @@ export const renderRoutes = (props) => {
           <IndexRoute component={Home} />
           <Route path='/login' component={LogIn} />
           <Route path='/signup' component={SingUp} />
-          <Route path='/dashboard' component={DashBoard} onEnter={requiredAuth}/>
           <Route path='/posts/new' component={NewPosts} onEnter={requiredAuth}/>
           <Route path='/posts/:post_id' component={ShowPost} />
           <Route path='/posts/:post_id/edit' component={EditPost} onEnter={requiredAuth}/>

@@ -23,7 +23,7 @@ export function newPost(data) {
       }
     }).then(res => {
       dispatch({type: 'Add_POST', post: res.data.post})
-      hashHistory.push('/dashboard')
+      hashHistory.push('/')
       console.log(res.data.message)
     }).catch(err => {
       handleError(err, dispatch)
@@ -70,7 +70,7 @@ export function editPost(data, id) {
       headers: {'Authorization': sessionStorage.getItem('jwtToken')}
     }).then(response => {
       dispatch({type: 'EDIT_POST', post: response.data.post})
-      hashHistory.push('/dashboard')
+      hashHistory.push('/')
       console.log(response.data.message)
     }).catch(error => {
       handleError(error, dispatch)

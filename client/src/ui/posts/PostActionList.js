@@ -60,7 +60,7 @@ class PostActionList extends React.Component {
           </Link>
         </div>
         <div style={styles.action} onClick={this.handleClick.bind(this)}>
-          <Link to='/dashboard' style={styles.a}>
+          <Link to='/' style={styles.a}>
             <ActionDelete color='#668eaa' style={styles.svg} />
             <span>删除</span>
           </Link>
